@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+
+ redis:
+    image: redis:7.0
+    container_name: my-redis
+#    volumes:
+#      - ./data/redis:/data
+    networks:
+      - redis_net
+    ports:
+      - 6379:6379
+
+ redis-commander:
+    container_name: redis-commander
+    image: rediscommander/redis-commander:latest
+    environment:
+    - REDIS_HOSTS=local:my-redis:6379
+    ports:
+    - "8081:8081"
+    networks:
+      - redis_net
+
+networks:
+  redis_net:
+    external:  false
